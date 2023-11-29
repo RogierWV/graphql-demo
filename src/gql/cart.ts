@@ -9,7 +9,7 @@ export default class Cart implements Partial {
         }
 
         input CartInput {
-            userId: Int!
+            userId: Int
             product: Int
         }
     `; 

@@ -1,5 +1,5 @@
 import { ApolloServer } from "@apollo/server";
-import { loggerPlugin } from "../logger.js";
+import { loggerPlugin } from "./logger.js";
 import { Partial } from "./partial.js";
 import { readdir } from "fs";
 import { fileURLToPath } from 'url';
@@ -12,10 +12,11 @@ const __dirname: string = path.dirname(__filename);
 
 // load the implementing classes for the Partial interface defined in ./partial.ts
 let classes: Partial[] = await (async () => {
+    const excludes = ["index.js", "partial.js", "logger.js"];
     const _readdir = promisify(readdir);
     const files = (await _readdir(__dirname))
-        .map(f => path.resolve(__dirname, f))
-        .filter(f => f !== __filename && f !== path.resolve(__dirname, "partial.js"));
+        .filter(f => !excludes.includes(f))
+        .map(f => path.resolve(__dirname, f));
     return (await Promise.all(files.map(f => import(f)))).map(c => new c.default());
 })();
 
