@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "swc ./src -d dist",
+    "compile": "tsc",
     "start": "node ./dist/index.js",
-    "dev": "nodemon -e js,ts --watch src --exec \"npm run compile && npm run start\""
+    "dev": "nodemon -e js,ts --watch src --exec \"swc ./src -d dist && npm run start\""
   },
   "keywords": [],
   "author": "",
