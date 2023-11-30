@@ -16,7 +16,8 @@ let classes: Partial[] = await (async () => {
     const _readdir = promisify(readdir);
     const files = (await _readdir(__dirname))
         .filter(f => !excludes.includes(f))
-        .map(f => path.resolve(__dirname, f));
+        .map(f => path.resolve(__dirname, f))
+        .map(f => `file://${f}`);
     return (await Promise.all(files.map(f => import(f)))).map(c => new c.default());
 })();
 
